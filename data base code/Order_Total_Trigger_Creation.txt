@@ -1,0 +1,16 @@
+CREATE OR REPLACE TRIGGER trg_update_order_total
+AFTER INSERT OR UPDATE OR DELETE ON OrderItems
+FOR EACH ROW
+DECLARE
+  v_total NUMBER := 0;
+BEGIN
+  SELECT SUM(oi.quantity * m.price)
+  INTO v_total
+  FROM OrderItems oi
+  JOIN Menu m ON oi.item_name = m.item_name
+  WHERE oi.order_id = :NEW.order_id;
+
+  UPDATE Orders
+  SET total = NVL(v_total, 0)
+  WHERE order_id = :NEW.order_id;
+END;

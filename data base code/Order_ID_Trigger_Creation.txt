@@ -1,0 +1,8 @@
+CREATE SEQUENCE seq_order_id START WITH 1 INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER trg_order_id
+BEFORE INSERT ON Orders
+FOR EACH ROW
+BEGIN
+  :NEW.order_id := seq_order_id.NEXTVAL;
+END;

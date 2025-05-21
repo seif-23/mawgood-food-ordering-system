@@ -1,0 +1,18 @@
+DECLARE
+    v_user_name USERS.USER_NAME%TYPE;
+BEGIN
+    v_user_name := LOWER(:USERS.USER_NAME); -- Convert input to lower case
+
+    GO_BLOCK('USERS');
+
+    -- Set WHERE clause using LOWER and LIKE for case-insensitive partial match
+    SET_BLOCK_PROPERTY(
+        'USERS',
+        DEFAULT_WHERE,
+        'LOWER(USER_NAME) LIKE ''%' || v_user_name || '%'''
+    );
+
+    EXECUTE_QUERY;
+
+    SET_BLOCK_PROPERTY('USERS', DEFAULT_WHERE, '');
+END;

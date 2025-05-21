@@ -1,0 +1,28 @@
+DECLARE
+  v_password VARCHAR2(50);
+  v_user_type VARCHAR2(10);
+BEGIN
+  SELECT password, user_type INTO v_password, v_user_type
+  FROM Users
+  WHERE user_name = :login.user_name;
+
+  IF :login.password = v_password THEN
+    -- Set global variable for logged-in user
+    :GLOBAL.CURRENT_USER := :login.user_name;
+
+    IF v_user_type = 'admin' THEN
+      CALL_FORM('C:\MawGood Project\admin.fmx');
+    ELSIF v_user_type = 'cashier' THEN
+      CALL_FORM('C:\MawGood Project\cashier.fmx');
+    END IF;
+  ELSE
+    MESSAGE('Incorrect Password');
+    MESSAGE(' ');
+    RAISE FORM_TRIGGER_FAILURE;
+  END IF;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    MESSAGE('User Not Found');
+    MESSAGE(' ');
+    RAISE FORM_TRIGGER_FAILURE;
+END;

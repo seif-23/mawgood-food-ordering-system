@@ -1,0 +1,20 @@
+DECLARE
+    CURSOR c_first IS
+        SELECT * FROM (
+            SELECT * FROM USERS 
+            ORDER BY USER_NAME
+        )
+        WHERE ROWNUM = 1;
+BEGIN
+    CLEAR_BLOCK;
+
+    FOR rec IN c_first LOOP
+        :USERS.USER_NAME := rec.USER_NAME;
+        :USERS.PASSWORD := rec.PASSWORD;
+        :USERS.USER_TYPE := rec.USER_TYPE;
+        RETURN;
+    END LOOP;
+
+    MESSAGE('No records found.');
+    MESSAGE(' ');
+END;

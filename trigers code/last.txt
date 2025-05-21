@@ -1,0 +1,16 @@
+DECLARE
+    CURSOR c_last IS
+        SELECT * 
+        FROM (
+            SELECT * FROM USERS ORDER BY USER_NAME DESC
+        )
+        WHERE ROWNUM = 1;
+BEGIN
+    CLEAR_BLOCK;
+
+    FOR rec IN c_last LOOP
+        :USERS.USER_NAME := rec.USER_NAME;
+        :USERS.PASSWORD := rec.PASSWORD;
+        :USERS.USER_TYPE := rec.USER_TYPE;
+    END LOOP;
+END;

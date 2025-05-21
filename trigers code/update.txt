@@ -1,0 +1,26 @@
+BEGIN
+    
+    IF :USERS.USER_NAME IS NULL OR
+       :USERS.PASSWORD IS NULL OR
+       :USERS.USER_TYPE IS NULL THEN
+        MESSAGE('Please fill in all required fields.');
+        MESSAGE(' ');
+        RAISE FORM_TRIGGER_FAILURE;
+    END IF;
+
+  
+    IF :SYSTEM.RECORD_STATUS = 'CHANGED' THEN
+        COMMIT_FORM;
+        MESSAGE('User updated successfully.');
+        MESSAGE(' ');
+    ELSE
+        MESSAGE('No changes to update.');
+        MESSAGE(' ');
+    END IF;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        MESSAGE('Update error: ' || SQLERRM);
+         MESSAGE(' ');
+        RAISE FORM_TRIGGER_FAILURE;
+END;

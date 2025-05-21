@@ -1,0 +1,20 @@
+BEGIN
+    IF :USERS.USER_NAME IS NULL THEN
+        MESSAGE('Please select a user to delete.');
+        MESSAGE(' ');
+        RAISE FORM_TRIGGER_FAILURE;
+    END IF;
+
+    DELETE_RECORD;
+    COMMIT_FORM;
+    CLEAR_BLOCK;
+
+    MESSAGE('User deleted successfully.');
+    MESSAGE(' ');
+
+EXCEPTION
+    WHEN OTHERS THEN
+        MESSAGE('Delete failed: ' || SQLERRM);
+        MESSAGE(' ');
+        RAISE FORM_TRIGGER_FAILURE;
+END;

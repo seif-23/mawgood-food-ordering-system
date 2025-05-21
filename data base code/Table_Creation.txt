@@ -1,0 +1,32 @@
+-- USERS table
+CREATE TABLE Users (
+  user_name VARCHAR2(50) PRIMARY KEY,
+  password VARCHAR2(50),
+  user_type VARCHAR2(10) CHECK (user_type IN ('admin', 'cashier'))
+);
+
+-- MENU table
+CREATE TABLE Menu (
+  item_name VARCHAR2(100) PRIMARY KEY,
+  price NUMBER(6,2)
+);
+
+-- ORDERS table
+CREATE TABLE Orders (
+  order_id NUMBER PRIMARY KEY,
+  user_name VARCHAR2(50),
+  order_date DATE DEFAULT SYSDATE,
+  total NUMBER(10,2),
+  FOREIGN KEY (user_name) REFERENCES Users(user_name)
+);
+
+-- ORDERITEMS table
+CREATE TABLE OrderItems (
+  order_id NUMBER,
+  user_name VARCHAR2(50),
+  item_name VARCHAR2(100),
+  quantity NUMBER,
+  FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+  FOREIGN KEY (user_name) REFERENCES Users(user_name),
+  FOREIGN KEY (item_name) REFERENCES Menu(item_name)
+);

@@ -1,0 +1,10 @@
+INSERT INTO Users VALUES ('ahmed', 'ahmed123', 'admin');
+INSERT INTO Users VALUES ('seif', 'seif123', 'admin');
+INSERT INTO Users VALUES ('mahmoud', 'mahmoud123', 'cashier');
+INSERT INTO Users VALUES ('mohamed', 'mohamed123', 'cashier');
+commit;
+
+INSERT INTO Menu VALUES ('Cheese', 130.52);
+INSERT INTO Menu VALUES ('Margherita', 90.52);
+INSERT INTO Menu VALUES ('Pepperoni', 170.52);
+commit;
